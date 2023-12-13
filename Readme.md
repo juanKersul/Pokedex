@@ -10,6 +10,8 @@ To get started, make sure you have Node.js and npm installed on your machine. Th
 2. Navigate to the project directory: `cd Pokedex`
 3. Install the dependencies: `npm install`
 
-## Development
+## Usage
 
-To run the development version of the project, use the following command: `npm run dev`
+To use the Pokedex project, follow these steps:
+
+1. Start the project: `npm run dev` or `ionic serve`
