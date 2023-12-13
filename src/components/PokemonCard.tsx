@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import ReactCardFlip from "react-card-flip";
 import {
   IonCard,
   IonImg,
@@ -5,15 +7,27 @@ import {
   IonTitle,
   IonCardContent,
 } from "@ionic/react";
-import React, { useState } from "react";
-import ReactCardFlip from "react-card-flip";
 import "./PokemonCard.css";
-const PokemonCard = ({ pokemon, index }: any) => {
+
+interface PokemonCardProps {
+  pokemon: {
+    name: string;
+    sprite: string;
+    exp: number;
+    height: number;
+    weight: number;
+    abilities: string[];
+  };
+  index: number;
+}
+
+const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, index }) => {
   const [flipped, setFlipped] = useState(false);
 
   const handleFlip = () => {
     setFlipped(!flipped);
   };
+
   return (
     <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
       <IonCard key={index} onClick={handleFlip} color="warning" className="ion-card-fixed">
@@ -38,7 +52,7 @@ const PokemonCard = ({ pokemon, index }: any) => {
           <IonTitle size="small">Abilities:</IonTitle>
           <ul>
             {pokemon.abilities.map((item: any, index: number) => (
-              <li key={index}>{item.ability.name}</li>
+              <li key={index}>{item}</li>
             ))}
           </ul>
         </IonCardContent>
@@ -46,4 +60,6 @@ const PokemonCard = ({ pokemon, index }: any) => {
     </ReactCardFlip>
   );
 };
+
 export default PokemonCard;
+

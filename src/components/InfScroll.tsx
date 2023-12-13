@@ -1,60 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
+import PokemonCard from "./PokemonCard";
+import PokemonService from "../services/PokemonService";
+import { PokemonData } from "../services/PokemonService";
 import {
   IonContent,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
 } from "@ionic/react";
-import PokemonCard from "./PokemonCard";
-
-const fetchPokemonData = async (len: number) => {
-  const promiseArr = [];
-  for (let i = len; i < len + 20; i++) {
-    promiseArr.push(
-      (await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`)).json()
-    );
-  }
-  const resolvedData = await Promise.all(promiseArr);
-  return resolvedData.map((item) => {
-    return {
-      name: item.name,
-      sprite: item.sprites.front_default,
-      exp: item.base_experience,
-      height: item.height,
-      weight: item.weight,
-      abilities: item.abilities,
-    };
-  });
-};
+import ErrorAlert from "./ErrorAlert";
 
 function InfScroll() {
-  const [data, setData] = useState([]);
-  const [index, setIndex] = useState(1);
+  const [data, setData] = useState<PokemonData[]>([]);
+  const [index, setIndex] = useState<number>(0);
+  const [error, setError] = useState<boolean>(false);
+
   const fetchData = async () => {
-    const resp = await fetchPokemonData(index);
-    setData([...data, ...resp]);
+    console.log("fetching data");
+    const resp = await PokemonService.fetchPokemonData(index, 20);
+    setData((prevData) => [...prevData, ...resp]);
   };
+
   useEffect(() => {
     fetchData();
     setIndex(index + 20);
-  }, []);
+  }, []); // Agrega dependencia vacía para ejecutar useEffect solo una vez
 
   return (
     <IonContent>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          gap: "16px",
-        }}
-      >
-        {data.map((item, index) => (
-          <PokemonCard
-            key={index}
-            pokemon={item}
-            index={index}
-          />
-        ))}
-      </div>
       <IonInfiniteScroll
         onIonInfinite={(ev) => {
           fetchData();
@@ -62,9 +35,30 @@ function InfScroll() {
           setTimeout(() => ev.target.complete(), 500);
         }}
       >
-        <IonInfiniteScrollContent></IonInfiniteScrollContent>
+        <IonInfiniteScrollContent>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "2vh 2vw",
+            }}
+          >
+            {data.map((item, dataIndex) => (
+              <PokemonCard key={dataIndex} pokemon={item} index={dataIndex} />
+            ))}
+          </div>
+        </IonInfiniteScrollContent>
       </IonInfiniteScroll>
+
+      {error && (
+        <ErrorAlert
+          isOpen={error}
+          errorMessage="Sorry, something gone wrong"
+          onDidDismiss={() => setError(false)}
+        />
+      )}
     </IonContent>
   );
 }
+
 export default InfScroll;
