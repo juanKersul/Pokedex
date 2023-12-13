@@ -1,5 +1,6 @@
 {
   "name": "pokedex",
+  "homepage": "https://juanKersul.github.io/Pokedex",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -9,7 +10,9 @@
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
-    "lint": "eslint src --ext .tsx"
+    "lint": "eslint src --ext .tsx",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@apollo/client": "^3.8.8",
@@ -45,6 +48,7 @@
     "cypress": "^13.5.0",
     "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.32.2",
+    "gh-pages": "^6.1.0",
     "jsdom": "^22.1.0",
     "terser": "^5.4.0",
     "typescript": "^5.1.6",
