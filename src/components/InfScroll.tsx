@@ -35,17 +35,30 @@ function InfScroll() {
   };
   useEffect(() => {
     fetchData();
+    setIndex(index + 20);
   }, []);
 
   return (
     <IonContent>
-      {data.map((item, index) => (
-        <PokemonCard pokemon={item} index={index} />
-      ))}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: "16px",
+        }}
+      >
+        {data.map((item, index) => (
+          <PokemonCard
+            key={index}
+            pokemon={item}
+            index={index}
+          />
+        ))}
+      </div>
       <IonInfiniteScroll
         onIonInfinite={(ev) => {
           fetchData();
-          setIndex(index + 1);
+          setIndex(index + 20);
           setTimeout(() => ev.target.complete(), 500);
         }}
       >

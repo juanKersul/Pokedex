@@ -1,0 +1,49 @@
+.ion-card-fixed {
+  width: 90vw;
+  max-width: 45vh;
+  height: 50vh;
+
+  @media (min-width: 576px) {
+    width: 80vw;
+    max-width: 40vh;
+    height: 45vh;
+  }
+
+  @media (min-width: 768px) {
+    width: 70vw;
+    max-width: 35vh;
+    height: 40vh;
+  }
+
+  @media (min-width: 992px) {
+    width: 60vw;
+    max-width: 30vh;
+    height: 35vh;
+  }
+
+  @media (min-width: 1200px) {
+    width: 50vw;
+    max-width: 25vh;
+    height: 30vh;
+  }
+}
+
+.ion-card-text {
+  font-size: 1rem;
+
+  @media (min-width: 576px) {
+    font-size: 0.3rem;
+  }
+
+  @media (min-width: 768px) {
+    font-size: 0.5rem;
+  }
+
+  @media (min-width: 992px) {
+    font-size: 0.7rem;
+  }
+
+  @media (min-width: 1200px) {
+    font-size: 0.9rem;
+  }
+}

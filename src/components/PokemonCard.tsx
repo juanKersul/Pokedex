@@ -1,63 +1,49 @@
 import {
   IonCard,
+  IonImg,
   IonCardHeader,
-  IonCardTitle,
+  IonTitle,
   IonCardContent,
-  IonRow,
-  IonCol,
-  IonItem,
-  IonList,
-  IonLabel,
-  IonListHeader,
 } from "@ionic/react";
+import React, { useState } from "react";
+import ReactCardFlip from "react-card-flip";
+import "./PokemonCard.css";
 const PokemonCard = ({ pokemon, index }: any) => {
+  const [flipped, setFlipped] = useState(false);
+
+  const handleFlip = () => {
+    setFlipped(!flipped);
+  };
   return (
-    <IonCard key={index}>
-      <IonCardHeader className="ion-text-center">
-        <IonCardTitle>{pokemon.name}</IonCardTitle>
-      </IonCardHeader>
-      <IonCardContent>
-        <IonRow>
-          <IonCol size="4">
-            <IonItem>
-              <img src={pokemon.sprite} alt={pokemon.name} />
-            </IonItem>
-          </IonCol>
-          <IonCol size="4">
-            <IonItem lines="none">
-              <IonList className="ion-text-end" slot="end">
-                <IonListHeader>
-                  <h2>Stats</h2>
-                </IonListHeader>
-                <IonLabel>
-                  <h2>Exp: {pokemon.exp}</h2>
-                </IonLabel>
-                <IonLabel>
-                  <h2>Height: {pokemon.height}</h2>
-                </IonLabel>
-                <IonLabel>
-                  <h2>Weight: {pokemon.weight}</h2>
-                </IonLabel>
-              </IonList>
-            </IonItem>
-          </IonCol>
-          <IonCol size="4">
-            <IonItem>
-              <IonList className="ion-text-end">
-                <IonListHeader>
-                  <h2>Abilities</h2>
-                </IonListHeader>
-                {pokemon.abilities.map((ability: any, index: any) => (
-                  <IonLabel key={index}>
-                    <h2>{ability.ability.name}</h2>
-                  </IonLabel>
-                ))}
-              </IonList>
-            </IonItem>
-          </IonCol>
-        </IonRow>
-      </IonCardContent>
-    </IonCard>
+    <ReactCardFlip isFlipped={flipped} flipDirection="horizontal">
+      <IonCard key={index} onClick={handleFlip} color="warning" className="ion-card-fixed">
+        <IonCardHeader>
+          <IonTitle size="large">{pokemon.name.toUpperCase()}</IonTitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonImg src={pokemon.sprite} alt={pokemon.name} />
+        </IonCardContent>
+      </IonCard>
+      <IonCard onClick={handleFlip} className="ion-card-fixed">
+        <IonCardHeader>
+          <IonTitle size="large">{pokemon.name.toUpperCase()}</IonTitle>
+        </IonCardHeader>
+        <IonCardContent className="ion-card-text">
+          <IonTitle size="small">Stats</IonTitle>
+          <ul>
+            <li>Height: {pokemon.height}</li>
+            <li>Weight: {pokemon.weight}</li>
+            <li>Base Experience: {pokemon.exp}</li>
+          </ul>
+          <IonTitle size="small">Abilities:</IonTitle>
+          <ul>
+            {pokemon.abilities.map((item: any, index: number) => (
+              <li key={index}>{item.ability.name}</li>
+            ))}
+          </ul>
+        </IonCardContent>
+      </IonCard>
+    </ReactCardFlip>
   );
 };
 export default PokemonCard;
